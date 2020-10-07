@@ -1,19 +1,26 @@
-<%- include ('partials/head.ejs') %>
-<% let returnArray = [] %>
+<%- include ('partials/head.ejs', {title: 'Index'}) %>
+
+<script>
+  function addElement() {
+    dataArray.push(Math.random(50))
+  }
+</script>
 
 <body>
   <div class="row">
     <div class="col-sm-3 offset-sm-1">
-      <button class="btn btn-primary">Upload image</button>
+      <button class="btn btn-primary" onclick="addElement()">Upload image</button>
     </div>
     <div class="col-sm-7">
       <ul>
-        <% if (typeof(returnArray)=="undefined" || !!returnArray) { %>
+        <% if (!!dataArray) { %>
         <li>No image uploaded</li>
-        <% } else %>
-
+        <%} else {
+            for (var data in dataArray) {%>
+        <li><%=data%>:<%=dataArray[data]%></li>
+        <%} 
+        }%>
       </ul>
-
     </div>
   </div class="row">
 </body>
