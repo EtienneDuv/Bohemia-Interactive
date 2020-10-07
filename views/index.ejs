@@ -1,0 +1,19 @@
+<%- include ('partials/head.ejs') %>
+<% let returnArray = [] %>
+
+<body>
+  <div class="row">
+    <div class="col-sm-3 offset-sm-1">
+      <button class="btn btn-primary">Upload image</button>
+    </div>
+    <div class="col-sm-7">
+      <ul>
+        <% if (typeof(returnArray)=="undefined" || !!returnArray) { %>
+        <li>No image uploaded</li>
+        <% } else %>
+
+      </ul>
+
+    </div>
+  </div class="row">
+</body>
