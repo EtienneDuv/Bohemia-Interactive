@@ -1,12 +1,23 @@
 const express = require('express');
-const controller = require('./api/routes');
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
+const session = require('express-session')
 const app = express();
 
-//TEMPLATE ENGINE
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); //TEMPLATE ENGINE
+app.use('/', express.static('./public')) //STATICS
+app.use(fileUpload({ createParentPath: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'testApp',
+  resave: false,
+  saveUninitialized: true
+}));
+session.sessionData = []
 
-//DEFINE STATICS
-app.use('/', express.static('./public'))
+//ROUTES
+const controller = require('./api/routes');
 
 //FIRE CONTROLLERS
 controller(app);
