@@ -1,19 +1,16 @@
 <%- include ('partials/head.ejs', {title: 'Index'}) %>
 
-<script>
-  function addElement() {
-    dataArray.push(Math.random(50))
-  }
-</script>
-
 <body>
   <div class="row">
     <div class="col-sm-3 offset-sm-1">
-      <button class="btn btn-primary" onclick="addElement()">Upload image</button>
+      <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" id="uploadFile" name="file" onchange="form.submit()" hidden>
+        <label for="uploadFile">Select file</label>
+      </form>
     </div>
     <div class="col-sm-7">
       <ul>
-        <% if (!!dataArray) { %>
+        <% if (typeof(dataArray)=="undefined" || !!dataArray) { %>
         <li>No image uploaded</li>
         <%} else {
             for (var data in dataArray) {%>
