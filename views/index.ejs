@@ -2,22 +2,35 @@
 
 <body>
   <div class="row">
-    <div class="col-sm-3 offset-sm-1">
+    <div class="col-sm-1 offset-sm-1">
       <form method="POST" action="/upload" enctype="multipart/form-data">
-        <input type="file" id="uploadFile" name="file" onchange="form.submit()" hidden>
+        <input type="file" id="uploadFile" name="uploaded" onchange="form.submit()" hidden>
         <label for="uploadFile">Select file</label>
       </form>
     </div>
-    <div class="col-sm-7">
-      <ul>
-        <% if (typeof(dataArray)=="undefined" || !!dataArray) { %>
-        <li>No image uploaded</li>
-        <%} else {
-            for (var data in dataArray) {%>
-        <li><%=data%>:<%=dataArray[data]%></li>
-        <%} 
-        }%>
-      </ul>
+    <div class="col-sm-5">
+      <table class="table">
+        <thead>
+          <% if (data.length === 0) { %>
+          <tr>
+            <th>No file uploaded </th>
+          </tr>
+          <% } else { %>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Size</th>
+          </tr>
+        </thead>
+        <% for (const e in data) { %>
+        <tbody>
+          <tr>
+            <td><%= data[e].name %></td>
+            <td><%= data[e].size %></td>
+          </tr>
+        </tbody>
+        <% }} %>
+      </table>
     </div>
+    <div class="col-sm-5">SM5</div>
   </div class="row">
 </body>

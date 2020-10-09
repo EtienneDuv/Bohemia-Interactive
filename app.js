@@ -14,7 +14,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-session.sessionData = []
+app.use(function (req, res, next) {
+  res.locals.session = req.session;
+  next();
+});
 
 //ROUTES
 const controller = require('./api/routes');
