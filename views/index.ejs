@@ -19,6 +19,7 @@
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Size</th>
+            <th scope="col">SHA1</th>
           </tr>
         </thead>
         <% for (const e in data) { %>
@@ -26,6 +27,7 @@
           <tr>
             <td><%= data[e].name %></td>
             <td><%= data[e].size %></td>
+            <td><%= data[e].sha1 %></td>
           </tr>
         </tbody>
         <% }} %>
