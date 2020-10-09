@@ -19,7 +19,8 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "express-session": "^1.17.1",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "sha1": "^1.1.1"
   },
   "devDependencies": {
     "eslint": "^7.10.0"
