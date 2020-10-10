@@ -1,4 +1,4 @@
-const { getSHA1, busboyHandle } = require('../services/fileHandler')
+const { getSHA1, getFileData } = require('../services/fileHandler')
 
 module.exports = function (app) {
   app.get("/", (req, res) => {
@@ -9,12 +9,14 @@ module.exports = function (app) {
 
   app.post("/upload", async (req, res) => {
     try {
-      const { name, size, sha1 } = await busboyHandle(req)
+      const data = await Promise.all([getFileData(req), getSHA1(req)]);
+      const { name, size } = data[0];
+      const sha1 = data[1];
       req.session.data.push({
         name: name,
         size: size,
         sha1: sha1
-      })
+      });
       res.redirect('/');
     } catch (err) {
       console.log(err)

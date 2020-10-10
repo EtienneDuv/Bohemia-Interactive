@@ -1,30 +1,39 @@
+const crypto = require('crypto');
 const Busboy = require('busboy');
-const sha1 = require('sha1')
 
-exports.getSHA1 = (string) => {
-  return sha1(string)
+exports.getSHA1 = (req) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const hash = crypto.createHash('sha1').setEncoding('binary');
+      hash.on('finish', () => {
+        resolve(hash.read())
+      })
+      req.pipe(hash)
+    } catch (err) {
+      reject(err);
+    }
+  })
 };
 
-exports.busboyHandle = (req) => {
+exports.getFileData = (req) => {
   return new Promise(async (resolve, reject) => {
     try {
       let totalSize = 0;
       const busboy = new Busboy({ headers: req.headers });
       busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
         console.log(`Filename:${filename}, encoding:${encoding}, mimetype:${mimetype}`);
-        file.on('data', function (data) {
+        file.on('data', (data) => {
           totalSize += data.length
         });
-        file.on('end', function () {
+        file.on('end', () => {
           resolve({
             name: filename,
-            size: totalSize,
-            sha1: 'SHA1'
+            size: totalSize
           });
         });
       });
       req.pipe(busboy);
-    } catch (error) {
+    } catch (err) {
       reject(err)
     }
   })
