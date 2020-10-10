@@ -22,12 +22,12 @@
             <th scope="col">SHA1</th>
           </tr>
         </thead>
-        <% for (const e in data) { %>
+        <% for (var i=data.length-1; i>= 0; --i) { %>
         <tbody>
           <tr>
-            <td><%= data[e].name %></td>
-            <td><%= data[e].size %></td>
-            <td><%= data[e].sha1 %></td>
+            <td><%= data[i].name %></td>
+            <td><%= data[i].size %></td>
+            <td><%= data[i].sha1 %></td>
           </tr>
         </tbody>
         <% }} %>
