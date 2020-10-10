@@ -13,7 +13,9 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(function (req, res, next) {
-  res.locals.session = req.session;
+  if (!req.session.data) {
+    req.session.data = [];
+  }
   next();
 });
 
