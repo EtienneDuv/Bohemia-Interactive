@@ -1,12 +1,10 @@
 const express = require('express');
-const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const session = require('express-session')
 const app = express();
 
 app.set('view engine', 'ejs'); //TEMPLATE ENGINE
 app.use('/', express.static('./public')) //STATICS
-app.use(fileUpload({ createParentPath: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({

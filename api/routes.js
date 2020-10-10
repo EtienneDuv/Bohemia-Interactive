@@ -1,4 +1,5 @@
 const { getSHA1 } = require('../services/fileHandler')
+const Busboy = require('busboy');
 
 module.exports = function (app) {
   app.get("/", (req, res) => {
@@ -12,19 +13,23 @@ module.exports = function (app) {
 
   app.post("/upload", async (req, res) => {
     try {
-      if (!req.files) {
-        req.session.data.push({ name: 'Failed upload', size: '' });
-        res.redirect('/');
-      } else {
-        const { name, size, data } = req.files.uploaded
-        req.session.data.push({
-          name: name.substring(0, 25),
-          size: size,
-          sha1: getSHA1(data)
+      let totalSize = 0;
+      const busboy = new Busboy({ headers: req.headers });
+      busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+        console.log(`Filename: ${filename}, encoding: ${encoding}, mimetype: ${mimetype}`);
+        file.on('data', function (data) {
+          totalSize += data.length
         });
-        // #TODO Db save
-        res.redirect('/');
-      }
+        file.on('end', function () {
+          req.session.data.push({
+            name: filename,
+            size: totalSize,
+            sha1: 'SHA1'
+          });
+          res.redirect('/');
+        });
+      });
+      req.pipe(busboy);
     } catch (err) {
       console.log(err)
       res.status(500).send(err);
