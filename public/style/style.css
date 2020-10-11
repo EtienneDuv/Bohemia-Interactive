@@ -6,6 +6,15 @@
   height: 35px;
 }
 
+.sha1 {
+  font-size: 14px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.center {
+  margin: 0 auto;
+}
+
 ul {
   list-style-type: none;
 }

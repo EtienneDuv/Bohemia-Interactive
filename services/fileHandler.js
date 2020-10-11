@@ -15,10 +15,9 @@ exports.handleFileUpload = (req) => {
         });
         file.on('end', () => {
           const finalSha = sha1.end().read()
-          console.log(finalSha)
           resolve(req.session.data.push({
-            name: filename,
-            size: totalSize,
+            name: trimName(filename),
+            size: formatBytes(totalSize),
             sha1: finalSha
           }));
         });
@@ -28,4 +27,17 @@ exports.handleFileUpload = (req) => {
       reject(err)
     }
   })
+}
+
+function formatBytes(bytes, decimals = 2) {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+const trimName = (string, length = 15) => {
+  return string.length > length ? string.substring(0, length - 3) + "..." : string;
 }

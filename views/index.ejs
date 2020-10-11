@@ -2,7 +2,7 @@
 
 <body>
   <div class="row">
-    <div class="col-sm-1 offset-sm-1">
+    <div class="col-sm-1 center">
       <form method="POST" action="/upload" enctype="multipart/form-data">
         <input type="file" id="uploadFile" name="uploaded" onchange="form.submit()" hidden>
         <label for="uploadFile">Select file</label>
@@ -27,7 +27,7 @@
           <tr>
             <td><%= data[i].name %></td>
             <td><%= data[i].size %></td>
-            <td><%= data[i].sha1 %></td>
+            <td class="sha1"><%= data[i].sha1 %></td>
           </tr>
         </tbody>
         <% }} %>
