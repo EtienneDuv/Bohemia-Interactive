@@ -11,3 +11,13 @@ The file itself should be discarded and not stored anywhere.
 -	the file should not touch the server's filesystem at all
 -	file size should not matter, it should handle 1KB file as well as 100GB files
 
+### Running the app
+
+Clone
+`git clone https://github.com/EtienneDuv/Bohemia-Interactive-Test.git && cd Bohemia-Interactive-Test`
+
+Install Dependencies
+`npm install`
+
+Run the app
+`npm start`
