@@ -1,6 +1,7 @@
 const Busboy = require('busboy');
 const crypto = require('crypto');
-const { create, read } = require('./databaseHandler')
+const { writeDb } = require('./databaseService')
+const { formatBytes, trimName } = require('./formattingService')
 
 exports.handleFileUpload = (req) => {
   return new Promise((resolve, reject) => {
@@ -16,7 +17,7 @@ exports.handleFileUpload = (req) => {
         });
         file.on('end', () => {
           const finalSha1 = sha1.end().read()
-          create(filename, totalSize, finalSha1)
+          writeDb(filename, totalSize, finalSha1)
           resolve(req.session.data.push({
             name: trimName(filename),
             size: formatBytes(totalSize),
@@ -29,17 +30,4 @@ exports.handleFileUpload = (req) => {
       reject(err)
     }
   })
-}
-
-function formatBytes(bytes, decimals = 2) {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-}
-
-const trimName = (string, length = 15) => {
-  return string.length > length ? string.substring(0, length - 3) + "..." : string;
 }

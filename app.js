@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session')
-const { initDb } = require('./services/databaseHandler')
+const { initDb } = require('./services/databaseService')
 const fs = require('fs')
 const app = express();
 
@@ -17,6 +17,7 @@ app.use(session({
 app.use(function (req, res, next) {
   if (!fs.existsSync('./db/database.db')) initDb()
   if (!req.session.data) req.session.data = [];
+  if (!req.session.savedData) req.session.savedData = [];
   next();
 });
 

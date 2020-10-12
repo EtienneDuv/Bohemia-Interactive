@@ -7,6 +7,10 @@
         <input type="file" id="uploadFile" name="uploaded" onchange="form.submit()" hidden>
         <label for="uploadFile">Select file</label>
       </form>
+      <form method="GET" action="/upload" enctype="multipart/form-data">
+        <input type="submit" id="loadData" onchange="form.submit()" hidden>
+        <label for="loadData">Fetch last 15</label>
+      </form>
     </div>
     <div class="col-sm-5">
       <table class="table">
@@ -33,6 +37,27 @@
         <% }} %>
       </table>
     </div>
-    <div class="col-sm-5">SM5</div>
+    <div class="col-sm-5">
+      <table class="table">
+        <thead>
+          <% if (savedData.length === 0) { %>
+          <% } else { %>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">SHA1</th>
+          </tr>
+        </thead>
+        <% for (var i=savedData.length-1; i>= 0; --i) { %>
+        <tbody>
+          <tr>
+            <td><%= savedData[i].name %></td>
+            <td><%= savedData[i].size %></td>
+            <td class="sha1"><%= savedData[i].sha1 %></td>
+          </tr>
+        </tbody>
+        <% }} %>
+      </table>
+    </div>
   </div class="row">
 </body>
