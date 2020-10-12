@@ -15,7 +15,10 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(function (req, res, next) {
-  if (!fs.existsSync('./db/database.db')) initDb()
+  if (!fs.existsSync('./db')) {
+    fs.mkdirSync('db')
+    if (!fs.existsSync('./db/database.db')) initDb()
+  }
   if (!req.session.data) req.session.data = [];
   if (!req.session.savedData) req.session.savedData = [];
   next();
