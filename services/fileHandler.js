@@ -1,5 +1,6 @@
 const Busboy = require('busboy');
 const crypto = require('crypto');
+const { create, read } = require('./databaseHandler')
 
 exports.handleFileUpload = (req) => {
   return new Promise((resolve, reject) => {
@@ -14,11 +15,12 @@ exports.handleFileUpload = (req) => {
           totalSize += data.length;
         });
         file.on('end', () => {
-          const finalSha = sha1.end().read()
+          const finalSha1 = sha1.end().read()
+          create(filename, totalSize, finalSha1)
           resolve(req.session.data.push({
             name: trimName(filename),
             size: formatBytes(totalSize),
-            sha1: finalSha
+            sha1: finalSha1
           }));
         });
       });
